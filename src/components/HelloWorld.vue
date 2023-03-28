@@ -4,19 +4,6 @@ import { computed, defineAsyncComponent, ref } from 'vue'
 defineProps<{ msg: string }>()
 
 const count = ref(0);
-const boo = computed(() => {
-  return `boo ${count.value}`;
-})
-
-function clicked() {
-  count.value++;
-  if (count.value === 3) {
-    method1()
-  }
-  if (count.value === 5) {
-    method2();
-  }
-}
 
 function method1() {
   console.log("In method1 before debugger");
@@ -27,10 +14,6 @@ function method1() {
 const MyComp = defineAsyncComponent(() =>
   import('./DynComp.vue')
 )
-const foo = ref('aaa');
-const bar = computed(() => {
-  return `bar ${count.value}`;
-})
 function method2() {
   console.log("In method2 before debugger");
   debugger;
@@ -42,7 +25,12 @@ function method2() {
   <h1>{{ msg }}</h1>
 
   <div class="card">
-    <button type="button" @click="clicked">count is {{ count }}</button>
+    <button type="button" @click="count++">count is {{ count }}</button>
+    <br/>
+    <button type="button" @click="method1">call method 1 - defined before</button>
+    <br/>
+    <button type="button" @click="method2">call method 2 - defined after</button>
+    
     <p>
       Edit
       <code>components/HelloWorld.vue</code> to test HMR
@@ -62,9 +50,6 @@ function method2() {
     in your IDE for a better DX
   </p>
   <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
-  <h3>{{ foo }}</h3>
-  <h3> {{ bar }}</h3>
-  <h3> {{  boo  }}</h3>
 </template>
 
 <style scoped>
